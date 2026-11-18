@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>iroha-os Pro</title>
+<style>
+*{box-sizing:border-box;user-select:none;font-family:-apple-system,sans-serif}
+body,html{margin:0;width:100%;height:100%;overflow:hidden;transition:background .4s}
+body.ipad{background:linear-gradient(135deg,#1e3c72,#2a5298,#ff7e5f)}
+body.mac{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364)}
+body.win{background:linear-gradient(135deg,#001f3f,#0074D9,#7FDBFF)}
+#sw{position:fixed;top:32px;right:12px;z-index:999;display:flex;gap:4px;background:rgba(0,0,0,.6);padding:5px;border-radius:18px;backdrop-filter:blur(10px)}
+.sb{border:0;background:0;color:#ddd;padding:6px 12px;border-radius:14px;font-size:12px;font-weight:700}
+.sb.on{background:#fff;color:#111}
+#bar{position:fixed;top:0;left:0;right:0;height:26px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:12px;font-weight:600}
+body.mac #bar{background:rgba(0,0,0,.35)}body.win #bar{display:none}
+#grid{display:grid;gap:18px;padding:64px 20px}
+body.ipad #grid{grid-template-columns:repeat(3,82px);justify-content:center;margin-top:20px}
+body.mac #grid{grid-template-columns:80px;justify-content:end}
+body.win #grid{grid-template-columns:80px;justify-content:start;padding-top:20px}
+.ic{display:flex;flex-direction:column;align-items:center;color:#fff;font-size:12px;text-shadow:0 1px 3px #000}
+.ib{width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:5px;box-shadow:0 6px 14px rgba(0,0,0,.3)}
+body.ipad .ib{border-radius:16px}body.mac .ib{border-radius:13px}body.win .ib{border-radius:6px}
+#dock-wrap{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;z-index:500}
+body.ipad #dock-wrap{bottom:14px}
+body.ipad #dock{background:rgba(255,255,255,.28);backdrop-filter:blur(16px);border-radius:24px;padding:8px 14px;display:flex;gap:12px}
+body.mac #dock-wrap{bottom:8px}
+body.mac #dock{background:rgba(255,255,255,.22);backdrop-filter:blur(16px);border-radius:16px;padding:6px 10px;display:flex;gap:10px}
+body.win #dock{width:100%;height:46px;background:rgba(18,26,42,.85);display:flex;justify-content:center;align-items:center;gap:10px}
+.di{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:22px}
+#wclk{display:none;position:absolute;right:14px;color:#fff;font-size:11px;text-align:right}
+body.win #wclk{display:block}
+.win{position:absolute;top:75px;left:24px;width:330px;max-width:90vw;background:rgba(255,255,255,.95);box-shadow:0 16px 40px rgba(0,0,0,.4);overflow:hidden;z-index:100}
+body.ipad .win{border-radius:20px}body.mac .win{border-radius:12px}body.win .win{border-radius:6px}
+.wh{height:38px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:#eee;font-size:13px;font-weight:700;touch-action:none}
+body.mac .wh{flex-direction:row-reverse}
+.cb{border:0;padding:4px 10px;border-radius:10px;background:#ddd;font-weight:700}
+body.mac .cb{width:14px;height:14px;padding:0;border-radius:50%;background:#ff5f56;font-size:0}
+body.win .cb{background:transparent;border-radius:4px}
+.wb{padding:12px;font-size:13px}
+.btn{padding:8px 12px;border:0;border-radius:8px;background:#007aff;color:#fff;font-weight:700;margin:2px}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}
+.cd{width:100%;padding:8px;font-size:20px;text-align:right;border:1px solid #ccc;border-radius:6px}
+.cbtn{padding:10px;border:0;border-radius:6px;background:#e4e6eb;font-size:15px;font-weight:700}
+.op{background:#ff9500;color:#fff}
+</style>
+</head>
+<body class="ipad">
+<div id="sw">
+  <button class="sb on" onclick="setOS('ipad',this)">📱 iPad</button>
+  <button class="sb" onclick="setOS('mac',this)">💻 Mac</button>
+  <button class="sb" onclick="setOS('win',this)">🪟 Win11</button>
+</div>
+<div id="bar"><span id="bl">iPad Wi-Fi</span><span id="clk">12:00</span></div>
+<div id="grid">
+  <div class="ic" onclick="app('game')"><div class="ib" style="background:#34c759">🐍</div>スネーク</div>
+  <div class="ic" onclick="app('paint')"><div class="ib" style="background:#ff2d55">🎨</div>ペイント</div>
+  <div class="ic" onclick="app('term')"><div class="ib" style="background:#111">💻</div>端末</div>
+  <div class="ic" onclick="app('calc')"><div class="ib" style="background:#3a3a3c">🧮</div>電卓</div>
+  <div class="ic" onclick="app('note')"><div class="ib" style="background:#ff9f0a">📝</div>メモ</div>
+  <div class="ic" onclick="app('set')"><div class="ib" style="background:#8e8e93">⚙️</div>壁紙設定</div>
+</div>
+<div id="dock-wrap"><div id="dock">
+  <div class="di" onclick="app('game')">🐍</div>
+  <div class="di" onclick="app('paint')">🎨</div>
+  <div class="di" onclick="app('term')">💻</div>
+  <div class="di" onclick="app('calc')">🧮</div>
+  <div class="di" onclick="app('set')">⚙️</div>
+  <div id="wclk">12:00</div>
+</div></div>
+<script>
+let z=100,drag=null,ox=0,oy=0,cs='',gInt=null;
+function setOS(o,b){
+  document.body.className=o;document.body.style.background='';
+  document.querySelectorAll('.sb').forEach(e=>e.classList.remove('on'));b.classList.add('on');
+  document.getElementById('bl').innerText=o==='mac'?' Finder ファイル 編集 表示':'iPad Wi-Fi';
+}
+setInterval(()=>{const t=new Date().toTimeString().slice(0,5);document.getElementById('clk').innerText=t;document.getElementById('wclk').innerText=t},1000);
+function app(t){
+  let w=document.getElementById('w-'+t);if(w){w.style.zIndex=++z;return}
+  w=document.createElement('div');w.className='win';w.id='w-'+t;w.style.zIndex=++z;
+  let title='',body='';
+  if(t==='game'){
+    title='スネークゲーム';
+    body='<div style="text-align:center"><div id="sc" style="font-weight:700;margin-bottom:4px">SCORE: 0</div><canvas id="gc" width="240" height="200" style="background:#111;border-radius:8px"></canvas><div style="margin-top:6px"><button class="btn" onclick="dir(0,-1)">↑</button><br><button class="btn" onclick="dir(-1,0)">←</button><button class="btn" onclick="dir(0,1)">↓</button><button class="btn" onclick="dir(1,0)">→</button></div></div>';
+  }else if(t==='paint'){
+    title='お絵かきペイント';
+    body='<div style="text-align:center"><canvas id="pc" width="280" height="190" style="border:1px solid #ccc;border-radius:8px;touch-action:none;background:#fff"></canvas><div style="margin-top:6px"><button class="btn" style="background:#111" onclick="pCol=\'#111\'">黒</button><button class="btn" style="background:#ff3b30" onclick="pCol=\'#ff3b30\'">赤</button><button class="btn" style="background:#007aff" onclick="pCol=\'#007aff\'">青</button><button class="btn" style="background:#8e8e93" onclick="pClr()">消去</button></div></div>';
+  }else if(t==='term'){
+    title='Linux ターミナル';
+    body='<div id="tout" style="background:#111;color:#4af626;font-family:monospace;padding:8px;border-radius:6px;height:150px;overflow-y:auto;font-size:12px">iroha-os Linux v2.0<br>「help」と打って送信！<br></div><div style="display:flex;margin-top:6px"><input id="tin" placeholder="help / neofetch / ls" style="flex:1;padding:6px;border:1px solid #ccc;border-radius:6px"><button class="btn" onclick="runCmd()">実行</button></div>';
+  }else if(t==='calc'){
+    title='電卓';
+    body='<input id="cd" class="cd" value="0" readonly><div class="cg">'+['7','8','9','/','4','5','6','*','1','2','3','-','C','0','=','+'].map(k=>`<button class="cbtn ${'/+-*='.includes(k)?'op':''}" onclick="ck('${k}')">${k}</button>`).join('')+'</div>';
+  }else if(t==='note'){
+    title='メモ';body='<textarea style="width:100%;height:160px;border:0;outline:none;font-size:15px" placeholder="メモを入力..."></textarea>';
+  }else if(t==='set'){
+    title='壁紙チェンジャー';
+    body='<p>好きな壁紙をタップ！</p><button class="btn" style="background:#ff7e5f" onclick="bg(\'linear-gradient(135deg,#ff7e5f,#feb47b)\')">サンセット</button><button class="btn" style="background:#11998e" onclick="bg(\'linear-gradient(135deg,#11998e,#38ef7d)\')">エメラルド</button><button class="btn" style="background:#8e2de2" onclick="bg(\'linear-gradient(135deg,#8e2de2,#4a00e0)\')">パープル</button><button class="btn" style="background:#232526" onclick="bg(\'linear-gradient(135deg,#232526,#414345)\')">ダーク</button>';
+  }
+  w.innerHTML=`<div class="wh" onpointerdown="sd(event,this.parentElement)"><span>${title}</span><button class="cb" onclick="closeW('${t}')">✕</button></div><div class="wb">${body}</div>`;
+  w.onpointerdown=()=>w.style.zIndex=++z;document.body.appendChild(w);
+  if(t==='game')initGame();if(t==='paint')initPaint();
+}
+function closeW(t){if(t==='game')clearInterval(gInt);document.getElementById('w-'+t).remove()}
+function bg(v){document.body.style.background=v}
+function sd(e,el){if(e.target.tagName!=='BUTTON'){drag=el;ox=e.clientX-el.offsetLeft;oy=e.clientY-el.offsetTop}}
+document.onpointermove=e=>{if(drag){drag.style.left=(e.clientX-ox)+'px';drag.style.top=(e.clientY-oy)+'px'}};
+document.onpointerup=()=>drag=null;
+function ck(k){const d=document.getElementById('cd');if(k==='C'){cs='';d.value='0'}else if(k==='='){try{cs=String(eval(cs));d.value=cs}catch{d.value='Err';cs=''}}else{cs+=k;d.value=cs}}
+function runCmd(){
+  const i=document.getElementById('tin'),o=document.getElementById('tout'),v=i.value.trim().toLowerCase();i.value='';
+  o.innerHTML+=`<div>$ ${v}</div>`;
+  if(v==='help')o.innerHTML+='<div>コマンド: help, ls, neofetch, date, clear</div>';
+  else if(v==='ls')o.innerHTML+='<div>Desktop  Documents  iroha-os.sh  secret.txt</div>';
+  else if(v==='neofetch')o.innerHTML+='<div style="color:#32ade6">OS: iroha-os Hybrid<br>Kernel: WebOS 6.1<br>UI: iPad / Mac / Win11</div>';
+  else if(v==='date')o.innerHTML+=`<div>${new Date().toLocaleString()}</div>`;
+  else if(v==='clear')o.innerHTML='';
+  else o.innerHTML+='<div>command not found (helpで一覧)</div>';
+  o.scrollTop=o.scrollHeight;
+}
+let pCol='#111',pCtx=null,drawing=false;
+function initPaint(){
