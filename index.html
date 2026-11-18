@@ -90,7 +90,7 @@ function app(t){
     body='<div style="text-align:center"><canvas id="pc" width="280" height="190" style="border:1px solid #ccc;border-radius:8px;touch-action:none;background:#fff"></canvas><div style="margin-top:6px"><button class="btn" style="background:#111" onclick="pCol=\'#111\'">黒</button><button class="btn" style="background:#ff3b30" onclick="pCol=\'#ff3b30\'">赤</button><button class="btn" style="background:#007aff" onclick="pCol=\'#007aff\'">青</button><button class="btn" style="background:#8e8e93" onclick="pClr()">消去</button></div></div>';
   }else if(t==='term'){
     title='Linux ターミナル';
-    body='<div id="tout" style="background:#111;color:#4af626;font-family:monospace;padding:8px;border-radius:6px;height:150px;overflow-y:auto;font-size:12px">iroha-os Linux v2.0<br>「help」と打って送信！<br></div><div style="display:flex;margin-top:6px"><input id="tin" placeholder="help / neofetch / ls" style="flex:1;padding:6px;border:1px solid #ccc;border-radius:6px"><button class="btn" onclick="runCmd()">実行</button></div>';
+    body='<div id="tout" style="background:#111;color:#4af626;font-family:monospace;padding:8px;border-radius:6px;height:150px;overflow-y:auto;font-size:12px">iroha-os Linux v2.0<br>「help」と打って実行！<br></div><div style="display:flex;margin-top:6px"><input id="tin" placeholder="help / neofetch / ls" style="flex:1;padding:6px;border:1px solid #ccc;border-radius:6px"><button class="btn" onclick="runCmd()">実行</button></div>';
   }else if(t==='calc'){
     title='電卓';
     body='<input id="cd" class="cd" value="0" readonly><div class="cg">'+['7','8','9','/','4','5','6','*','1','2','3','-','C','0','=','+'].map(k=>`<button class="cbtn ${'/+-*='.includes(k)?'op':''}" onclick="ck('${k}')">${k}</button>`).join('')+'</div>';
